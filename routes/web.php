@@ -14,5 +14,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $class = new class{
+        function tryDispatch(): void
+        {
+            dispatch(function () {
+                \Illuminate\Support\Facades\Log::info('Closure dispatch in anonymous class works');
+            });
+        }
+    };
+
+    $class->tryDispatch();
+
+    dispatch(function () {
+        \Illuminate\Support\Facades\Log::info('Closure dispatch works');
+    });
 });
